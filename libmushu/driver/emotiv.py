@@ -27,8 +27,8 @@ import usb.util
 from libmushu.amplifier import Amplifier
 
 
-VENDOR_ID = 0x1234
-PRODUCT_ID = 0xed02
+VENDOR_ID = 0x21a1
+PRODUCT_ID = 0x0001
 
 ENDPOINT_IN = usb.util.ENDPOINT_IN | 2  # second endpoint
 
@@ -58,6 +58,10 @@ class Epoc(Amplifier):
         # is not sent with every frame.
         self._battery = 0
         self._quality = [0 for i in range(14)]
+        #how many channels
+        self.channels = 32
+        #sampling frequency
+        self.fs = 128
         # channel info
         self.channel = ['Counter', 'Battery',
                         'F3', 'FC5', 'AF3', 'F7', 'T7', 'P7', 'O1',
@@ -79,6 +83,12 @@ class Epoc(Amplifier):
             print e
             data = np.array()
         return data.reshape(1, -1)
+        
+    def get_sampling_frequency(self):
+        return self.fs
+        
+    def get_channels(self):
+        return ['Ch_%d' % i for i in range(self.channels)]
 
     @staticmethod
     def is_available():
@@ -86,7 +96,7 @@ class Epoc(Amplifier):
             return False
         else:
             return True
-
+            
     def generate_key(self, sn, research=True):
         """Generate the encryption key.
 
