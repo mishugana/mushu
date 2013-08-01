@@ -75,14 +75,14 @@ class Epoc(Amplifier):
 
     def get_data(self):
         try:
-            raw = self.dev.read(ENDPOINT_IN, 32, 1, timeout=1000)
+            raw = self.dev.read(ENDPOINT_IN, 32, 1, timeout=10000)
             raw = self.decrypt(raw)
             data = self.parse_raw(raw)
             data = np.array(data)
         except Exception as e:
             print e
             data = np.array()
-        return data.reshape(1, -1)
+        return data.reshape(1, -1)[]
         
     def get_sampling_frequency(self):
         return self.fs
