@@ -11,7 +11,7 @@ setup(
     author = 'Bastian Venthur',
     author_email = 'bastian.venthur@tu-berlin.de',
     url = 'http://github.com/venthur/mushu/',
-    packages = ['libmushu', 'libmushu.device'],
+    packages = ['libmushu', 'libmushu.driver'],
     scripts = ['mushu.py'],
 )
 
