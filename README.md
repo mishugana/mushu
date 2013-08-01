@@ -15,6 +15,7 @@ one can use `pip`:
 
 ```sh
 pip install -r requirements.txt
+sudo python ./setup.py install
 ```
 
 or simply install all packages line by line using the package manager of your
