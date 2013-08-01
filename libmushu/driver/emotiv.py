@@ -39,7 +39,11 @@ class Epoc(Amplifier):
         # find amplifier
         self.dev = usb.core.find(idVendor=VENDOR_ID, idProduct=PRODUCT_ID)
         if self.dev is None:
-            raise RuntimeError('Emotiv device is not connected.')
+            VENDOR_ID = 0x1234
+            PRODUCT_ID = 0xed01
+            self.dev = usb.core.find(idVendor=VENDOR_ID, idProduct=PRODUCT_ID)
+            if self.dev is None:
+                raise RuntimeError('Emotiv device is not connected.')
         # pyusb docs say you *have* to call set_configuration, but it does not
         # work unless i *don't* call it.
         #dev.set_configuration()
@@ -58,8 +62,6 @@ class Epoc(Amplifier):
         # is not sent with every frame.
         self._battery = 0
         self._quality = [0 for i in range(14)]
-        #how many channels
-        self.channels = 32
         #sampling frequency
         self.fs = 128
         # channel info
@@ -82,13 +84,13 @@ class Epoc(Amplifier):
         except Exception as e:
             print e
             data = np.array()
-        return data.reshape(1, -1)[]
+        return data.reshape(1, -1),[]
         
     def get_sampling_frequency(self):
         return self.fs
         
     def get_channels(self):
-        return ['Ch_%d' % i for i in range(self.channels)]
+        return self.channel
 
     @staticmethod
     def is_available():
